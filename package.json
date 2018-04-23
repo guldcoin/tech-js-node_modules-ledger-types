@@ -6,10 +6,15 @@
   "repository": "https://github.com/isysd/ledger-types",
   "author": "isysd <public@iramiller.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "browserify types.js -o dist/ledger.types.js",
+    "test": "mocha"
+  },
   "dependencies": {
-    "decimal.js": "*"
+    "decimal.js": "^10.0.0"
   },
   "dev-dependencies": {
+    "browserify": "^16.2.0",
     "mocha": "^5.1.1"
   }
 }
