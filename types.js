@@ -1,14 +1,9 @@
 /**
- * @module guld-ledger
+ * @module ledger-types
  * @license MIT
- * @author guld
+ * @author zimmi
  */
 'use strict'
-// imports needed pre-export. Must be syncronous.
-// require('guld-import')
-// var ledger = require(getLocalPath('gap://tech/js/node_modules/ledger-cli/lib/ledger.js'))
-// var Decimal = require(getLocalPath('gap://tech/js/node_modules/decimal.js'))
-var ledger = require("ledger-cli")
 var Decimal = require("decimal.js")
 
 class Amount {

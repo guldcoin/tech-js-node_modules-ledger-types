@@ -1,9 +1,8 @@
 const os = require('os')
 const path = require('path')
 const assert = require('assert')
-require('guld-import')
-const glob = require(getLocalPath('gap://tech/js/node_modules/glob-promise'))
-const math = require(getLocalPath('gap://tech/js/node_modules/mathjs/index.js'))
+const glob = require('glob-promise')
+const math = require('mathjs')
 var ltypes = require('ledger-types')
 var Amount = ltypes.Amount
 var Balance = ltypes.Balance

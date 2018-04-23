@@ -2,11 +2,14 @@
   "name": "ledger-types",
   "main": "./types.js",
   "version": "1.0.0",
-  "description": "",
+  "description": "Javascript types for ledger-cli data, using decimal.js for numbers.",
   "repository": "https://github.com/isysd/ledger-types",
   "author": "isysd <public@iramiller.com>",
   "license": "MIT",
   "dependencies": {
     "decimal.js": "*"
+  },
+  "dev-dependencies": {
+    "mocha": "^5.1.1"
   }
 }
