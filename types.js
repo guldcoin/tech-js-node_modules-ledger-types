@@ -3,8 +3,11 @@
  * @license MIT
  * @author zimmi
  */
-'use strict'
-var Decimal = require("decimal.js")
+
+
+if (typeof require !== 'undefined') {
+  var Decimal = require('decimal.js')
+} // Otherwise assume Decimal was imported from decimal.js.
 
 class Amount {
   constructor (amount, commodity) {
@@ -169,4 +172,6 @@ class Account {
   }
 }
 
-module.exports = {Amount: Amount, Balance: Balance, Account: Account}
+if (typeof module !== 'undefined') {
+  module.exports = {Amount: Amount, Balance: Balance, Account: Account}
+} // Otherwise assume Decimal was imported from decimal.js.
