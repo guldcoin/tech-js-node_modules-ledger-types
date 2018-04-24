@@ -4,7 +4,6 @@
  * @author zimmi
  */
 
-
 if (typeof require !== 'undefined') {
   var Decimal = require('decimal.js')
 } // Otherwise assume Decimal was imported from decimal.js.
@@ -174,4 +173,4 @@ class Account {
 
 if (typeof module !== 'undefined') {
   module.exports = {Amount: Amount, Balance: Balance, Account: Account}
-} // Otherwise assume Decimal was imported from decimal.js.
+} // Otherwise assume we're in a browser environment
