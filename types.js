@@ -3,7 +3,7 @@
  * @license MIT
  * @author zimmi
  */
-/* global Decimal:false */
+const { Decimal } = require('decimal.js')
 
 class Amount {
   constructor (amount, commodity) {
@@ -200,21 +200,15 @@ class Account {
 
   _add (bal, path) {
     var parent = this
-    var done = []
+    var current
     while (path.length > 0) {
-      done.push(path.shift())
-      if (path.length > 0) {
-        if (!parent.hasOwnProperty(done[done.length - 1])) {
-          parent[done[done.length - 1]] = new Account()
-        }
+      current = path.shift()
+      if (parent.hasOwnProperty(current)) {
+        parent[current].__bal = parent[current].__bal.add(bal)
       } else {
-        if (parent.hasOwnProperty(done[done.length - 1])) {
-          parent[done[done.length - 1]].__bal = parent[done[done.length - 1]].__bal.add(bal)
-        } else {
-          parent[done[done.length - 1]] = new Account(bal)
-        }
+        parent[current] = new Account(bal)
       }
-      parent = parent[done[done.length - 1]]
+      parent = parent[current]
     }
   }
 
@@ -237,10 +231,8 @@ class Account {
   }
 }
 
-if (typeof module !== 'undefined') {
-  module.exports = {
-    Amount: Amount,
-    Balance: Balance,
-    Account: Account
-  }
-} // Otherwise assume we're in a browser environment
+module.exports = {
+  Amount: Amount,
+  Balance: Balance,
+  Account: Account
+}

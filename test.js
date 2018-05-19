@@ -447,7 +447,6 @@ describe('ledger-types', function () {
       var bal = new Balance(amt)
       var acct = new Account()
       acct._add(bal, ['isysd', 'Assets'])
-      acct._add(bal, ['isysd'])
       assert(acct._bal().equals(bal))
       assert(acct.isysd._bal().equals(bal))
       assert(acct.isysd.Assets._bal().equals(bal))
