@@ -7,7 +7,8 @@ const { Decimal } = require('decimal.js')
 
 class Amount {
   constructor (amount, commodity) {
-    this.value = new Decimal(amount)
+    if (amount instanceof Decimal) this.value = amount
+    else this.value = new Decimal(`${amount}`)
     this.commodity = commodity || ''
   }
 
