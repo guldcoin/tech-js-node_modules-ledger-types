@@ -232,8 +232,52 @@ class Account {
   }
 }
 
+class Loader {
+  static Decimal (dec) {
+    var val = new Decimal(0)
+    val.d = dec.d
+    val.e = dec.e
+    val.s = dec.s
+    return val
+  }
+
+  static Amount (amt) {
+    if (amt instanceof Amount) return amt
+    else return new Amount(this.Decimal(amt.value), amt.commodity)
+  }
+
+  static Balance (bal) {
+    if (bal instanceof Balance) return bal
+    else {
+      var balance = new Balance({})
+      Object.keys(bal).forEach(b => {
+        if (b.indexOf('_') === -1) {
+          balance = balance.add(this.Amount(bal[b]))
+        }
+      })
+      return balance
+    }
+  }
+
+  static Account (acct) {
+    if (acct instanceof Account) return acct
+    else {
+      var account = new Account(new Balance({}))
+      Object.keys(acct).forEach(act => {
+        if (act === '__bal') {
+          account.__bal = this.Balance(acct[act])
+        } else if (act.indexOf('_') === -1) {
+          account[act] = this.Account(acct[act])
+        }
+      })
+      return account
+    }
+  }
+}
+
 module.exports = {
   Amount: Amount,
   Balance: Balance,
-  Account: Account
+  Account: Account,
+  Loader: Loader
 }
