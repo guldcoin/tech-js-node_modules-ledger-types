@@ -273,6 +273,51 @@ class Account {
   }
 }
 
+function filterPricesByTime (line) {
+  if (!line.startsWith('P ')) return false
+  else {
+    var pdate = line.substring(2, 12)
+    var apdate = pdate.split('/')
+    pdate = `${apdate[1]}/${apdate[2]}/${apdate[0]}`
+    var now = Date.now()
+    var ptime = new Date(pdate).getTime()
+    if (now >= ptime) {
+      return true
+    } else return false
+  }
+}
+
+const commodity = {
+  getCommodityPrice: async function (commdodity, base, oname) {
+    if (typeof commodity === 'undefined') commodity = 'GULD'
+    if (typeof base === 'undefined') base = 'USD'
+    if (!oname) {
+      if (global.observer && global.observer.name) oname = global.observer.name
+      else oname = 'guld'
+    }
+    var pricef = await this.readFile(`/BLOCKTREE/${oname}/ledger/prices/${commodity.toLowerCase()}.db`, 'utf-8')
+  },
+  parseCommodityPrice: async function (commodity, base, oname) {
+    var pricefl
+    var pricea
+    var amtstr
+    var re
+    commodity = commodity.toUpperCase()
+    base = base.toUpperCase()
+    pricef = pricef.split('\n').reverse()
+    pricefl = pricef.filter(filterPricesByTime)
+    var res = `${commodity}[ ]{0,1}.*[0-9.].*`.replace('$', '')
+    re = new RegExp(res, 'm')
+    pricea = re.exec(pricefl.join('\n'))
+    if (pricea && pricea.length > 0 && pricea[0].length > 0) {
+      amtstr = pricea[0].replace(commodity, '').trim()
+      var amt = amtstr.replace(base, '').trim()
+      return new Amount(amt, base)
+    } else throw new RangeError(`Price not found for commodity ${commodity}`)
+  }
+
+}
+
 module.exports = {
   Amount: Amount,
   Balance: Balance,
