@@ -4,6 +4,10 @@
  * @author zimmi
  */
 const { Decimal } = require('decimal.js')
+const path = require('path')
+const home = require('user-home')
+const { getFS } = require('guld-fs')
+var fs
 
 function createDecimal (dec) {
   var val = new Decimal(0)
@@ -288,31 +292,35 @@ function filterPricesByTime (line) {
 }
 
 const commodity = {
-  getCommodityPrice: async function (commdodity, base, oname) {
+  getCommodityPrice: async function (commodity, quote, oname) {
+    fs = fs || await getFS()
     if (typeof commodity === 'undefined') commodity = 'GULD'
-    if (typeof base === 'undefined') base = 'USD'
+    if (typeof quote === 'undefined') quote = 'USD'
     if (!oname) {
       if (global.observer && global.observer.name) oname = global.observer.name
       else oname = 'guld'
     }
-    var pricef = await this.readFile(`/BLOCKTREE/${oname}/ledger/prices/${commodity.toLowerCase()}.db`, 'utf-8')
+    commodity = commodity.toUpperCase()
+    // TODO make default exchange configurable
+    if (commodity === 'GULD') return fs.readFile(path.join(home, 'market', quote, commodity, 'prices', 'guld-core.dat'), 'utf-8')
+    else return fs.readFile(path.join(home, 'market', quote, commodity, 'prices', 'coinmarketcap.dat'), 'utf-8')
   },
-  parseCommodityPrice: async function (commodity, base, oname) {
+  parseCommodityPrice: function (pricef, commodity = 'GULD', quote = 'USD') {
     var pricefl
     var pricea
     var amtstr
     var re
     commodity = commodity.toUpperCase()
-    base = base.toUpperCase()
+    quote = quote.toUpperCase()
     pricef = pricef.split('\n').reverse()
     pricefl = pricef.filter(filterPricesByTime)
-    var res = `${commodity}[ ]{0,1}.*[0-9.].*`.replace('$', '')
+    var res = `[0-9.]*[ ]{0,1}${quote}$`.replace(commodity, '')
     re = new RegExp(res, 'm')
     pricea = re.exec(pricefl.join('\n'))
     if (pricea && pricea.length > 0 && pricea[0].length > 0) {
       amtstr = pricea[0].replace(commodity, '').trim()
-      var amt = amtstr.replace(base, '').trim()
-      return new Amount(amt, base)
+      var amt = amtstr.replace(quote, '').trim()
+      return new Amount(amt, quote)
     } else throw new RangeError(`Price not found for commodity ${commodity}`)
   }
 
@@ -321,5 +329,6 @@ const commodity = {
 module.exports = {
   Amount: Amount,
   Balance: Balance,
-  Account: Account
+  Account: Account,
+  commodity: commodity
 }
