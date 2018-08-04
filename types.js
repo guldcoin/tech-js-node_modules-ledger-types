@@ -282,7 +282,7 @@ function filterPricesByTime (line) {
   else {
     var pdate = line.substring(2, 12)
     var apdate = pdate.split('/')
-    pdate = `${apdate[1]}/${apdate[2]}/${apdate[0]}`
+    pdate = `${apdate[1]}/${apdate[2]}/${apdate[0]} 00:00:00 GMT+00:00`
     var now = Date.now()
     var ptime = new Date(pdate).getTime()
     if (now >= ptime) {
@@ -323,7 +323,6 @@ const commodity = {
       return new Amount(amt, quote)
     } else throw new RangeError(`Price not found for commodity ${commodity}`)
   }
-
 }
 
 module.exports = {
