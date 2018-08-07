@@ -1,6 +1,7 @@
 {
   "name": "ledger-types",
   "main": "./types.js",
+  "browser": "./ledger-types.min.js",
   "version": "1.4.1",
   "description": "Javascript types for ledger-cli data, using decimal.js for numbers.",
   "repository": "https://github.com/isysd/ledger-types",
@@ -8,13 +9,12 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha",
-    "lint": "eslint --env browser *.js* && eslint --env node *.js*",
-    "fix": "eslint --fix *.js*"
+    "lint": "eslint --env browser *.js* --ignore-pattern *.min.js && eslint --env node *.js* --ignore-pattern *.min.js",
+    "fix": "eslint --fix *.js* --ignore-pattern *.min.js",
+    "build": "webpack-cli"
   },
   "dependencies": {
-    "decimal.js": "^10.0.0",
-    "guld-fs": "^1.2.15",
-    "user-home": "^2.0.0"
+    "decimal.js": "^10.0.0"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
@@ -26,7 +26,9 @@
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.1.0",
     "mocha": "^5.1.1",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "webpack": "^4.16.4",
+    "webpack-cli": "^3.1.0"
   },
   "pre-commit": [
     "lint",

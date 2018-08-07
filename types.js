@@ -1,13 +1,9 @@
+/* global Decimal:false */
 /**
  * @module ledger-types
  * @license MIT
  * @author zimmi
  */
-const { Decimal } = require('decimal.js')
-const path = require('path')
-const home = require('user-home')
-const { getFS } = require('guld-fs')
-var fs
 
 function createDecimal (dec) {
   var val = new Decimal(0)
@@ -292,7 +288,7 @@ function filterPricesByTime (line) {
 }
 
 const commodity = {
-  getCommodityPrice: async function (commodity, quote, oname) {
+  /* getCommodityPrice: async function (commodity, quote, oname) {
     fs = fs || await getFS()
     if (typeof commodity === 'undefined') commodity = 'GULD'
     if (typeof quote === 'undefined') quote = 'USD'
@@ -304,7 +300,7 @@ const commodity = {
     // TODO make default exchange configurable
     if (commodity === 'GULD') return fs.readFile(path.join(home, 'market', quote, commodity, 'prices', 'guld-core.dat'), 'utf-8')
     else return fs.readFile(path.join(home, 'market', quote, commodity, 'prices', 'coinmarketcap.dat'), 'utf-8')
-  },
+  }, */
   parseCommodityPrice: function (pricef, commodity = 'GULD', quote = 'USD') {
     var pricefl
     var pricea
@@ -325,9 +321,53 @@ const commodity = {
   }
 }
 
+class Transaction {
+  constructor (text) {
+    this.raw = text
+  }
+
+  static getType (tx) {
+    var re = /^[0-9]{4}\/[0-9]{2}\/[0-9]{2} \* [ a-zA-Z0-9]*$/m
+    var txheader = re.exec(tx)
+    if (txheader && txheader.length > 0 && txheader[0].length > 0) {
+      return txheader[0].split('*')[1].trim()
+    } else {
+      throw new TypeError('expected a ledger transaction, but found unknown type')
+    }
+  }
+
+  static getTimestamp (tx) {
+    var re = /^ {4}; (timestamp|START_TIME): [0-9]+$/m
+    var txheader = re.exec(tx)
+    if (txheader && txheader.length > 0 && txheader[0].length > 0) {
+      return txheader[0].split(':')[1].trim()
+    } else {
+      throw new TypeError('expected a ledger transaction, but found unknown type')
+    }
+  }
+
+  static getAmount (tx) {
+    var re = /^ +[:a-zA-Z-]+ +[0-9a-zA-Z,. ]+$/m
+    var txheader = re.exec(tx)
+    if (txheader && txheader.length > 0 && txheader[0].length > 0) {
+      var posting = txheader[0].replace(',', '')
+      re = /[0-9.]+/
+      txheader = re.exec(posting)
+      if (txheader && txheader.length > 0 && txheader[0].length > 0) {
+        return txheader[0]
+      } else {
+        throw new TypeError('expected a ledger transaction, but found unknown type')
+      }
+    } else {
+      throw new TypeError('expected a ledger transaction, but found unknown type')
+    }
+  }
+}
+
 module.exports = {
   Amount: Amount,
   Balance: Balance,
   Account: Account,
-  commodity: commodity
+  commodity: commodity,
+  Transaction: Transaction
 }
