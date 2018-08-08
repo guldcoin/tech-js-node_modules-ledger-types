@@ -347,11 +347,11 @@ class Transaction {
   }
 
   static getAmount (tx) {
-    var re = /^ +[:a-zA-Z-]+ +[0-9a-zA-Z,. ]+$/m
+    var re = /^ +[:a-zA-Z-]+ +[0-9a-zA-Z,. -]+$/m
     var txheader = re.exec(tx)
     if (txheader && txheader.length > 0 && txheader[0].length > 0) {
       var posting = txheader[0].replace(',', '')
-      re = /[0-9.]+/
+      re = /[0-9.-]+/
       txheader = re.exec(posting)
       if (txheader && txheader.length > 0 && txheader[0].length > 0) {
         return txheader[0]
