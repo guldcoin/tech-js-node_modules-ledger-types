@@ -240,6 +240,20 @@ class Account {
     }
   }
 
+  static createFromEquity (equity) {
+    var account = new Account(new Balance({}))
+    equity = equity.split('\n').slice(1)
+    for (var l in equity) {
+      var linea = equity[l].trim().split(' ').filter(lp => lp !== '')
+      if (linea && linea.length > 0) {
+        var amt = new Amount(...linea.slice(-2))
+        var acpath = linea[0].split(':')
+        account._add(new Balance(amt), acpath)
+      }
+    }
+    return account
+  }
+
   _add (bal, path) {
     var parent = this
     var current
