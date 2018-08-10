@@ -246,7 +246,7 @@ class Account {
     for (var l in equity) {
       var linea = equity[l].trim().split(' ').filter(lp => lp !== '')
       if (linea && linea.length > 0) {
-        var amt = new Amount(...linea.slice(-2))
+        var amt = new Amount(linea.slice(-2, -1).replace(',', ''), linea.slice(-1))
         var acpath = linea[0].split(':')
         account._add(new Balance(amt), acpath)
       }
