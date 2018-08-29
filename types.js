@@ -1,13 +1,13 @@
-/* global Decimal:false */
 /**
  * @module ledger-types
  * @license MIT
  * @author zimmi
  */
+var Decimal
 try {
-  window.Decimal = window.Decimal
+  Decimal = window.Decimal
 } catch (e) {
-  if (require) require('decimal.js')
+  if (require) Decimal = require('decimal.js')
   else throw e
 }
 
