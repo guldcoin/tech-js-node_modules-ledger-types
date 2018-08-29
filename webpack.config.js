@@ -9,6 +9,9 @@ module.exports = [
       path: __dirname,
       library: 'ledgerTypes',
       libraryTarget: 'var'
+    },
+    externals: {
+      Decimal: 'Decimal'
     }
   }
 ]

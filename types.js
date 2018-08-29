@@ -4,6 +4,12 @@
  * @license MIT
  * @author zimmi
  */
+try {
+  window.Decimal = window.Decimal
+} catch (e) {
+  if (require) require('decimal.js')
+  else throw e
+}
 
 function createDecimal (dec) {
   var val = new Decimal(0)
