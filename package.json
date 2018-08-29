@@ -4,7 +4,7 @@
   "browser": "./ledger-types.min.js",
   "version": "2.0.4",
   "description": "Javascript types for ledger-cli data, using decimal.js for numbers.",
-  "repository": "https://github.com/isysd/ledger-types",
+  "repository": "https://bitbucket.org/isysd/ledger-types",
   "author": "isysd <public@iramiller.com>",
   "license": "MIT",
   "scripts": {
@@ -38,7 +38,7 @@
     "node": ">=10"
   },
   "readme": "README.md",
-  "homepage": "https://github.com/isysd/tech-js-node_modules-ledger-types#readme",
+  "homepage": "https://bitbucket.org/isysd/tech-js-node_modules-ledger-types#readme",
   "keywords": [
     "guld"
   ]
