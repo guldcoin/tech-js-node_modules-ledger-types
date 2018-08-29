@@ -2,7 +2,7 @@
   "name": "ledger-types",
   "main": "./types.js",
   "browser": "./ledger-types.min.js",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Javascript types for ledger-cli data, using decimal.js for numbers.",
   "repository": "https://bitbucket.org/isysd/ledger-types",
   "author": "isysd <public@iramiller.com>",
