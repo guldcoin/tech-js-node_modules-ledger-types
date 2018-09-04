@@ -2,7 +2,7 @@
   "name": "ledger-types",
   "main": "./index.js",
   "browser": "./ledger-types.min.js",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "Javascript types for [ledger-cli](https://ledger-cli.org) data, using decimal.js for numbers.",
   "repository": "https://bitbucket.org/guld/tech-js-node_modules-ledger-types",
   "author": "isysd <public@iramiller.com>",
