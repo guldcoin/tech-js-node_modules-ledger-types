@@ -3,7 +3,7 @@
 const assert = require('assert')
 const Decimal = require('decimal.js')
 global.Decimal = Decimal
-var ltypes = require('./types.js')
+var ltypes = require('../')
 var Amount = ltypes.Amount
 var Balance = ltypes.Balance
 var Account = ltypes.Account
